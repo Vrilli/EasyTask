@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
 
 
@@ -12,14 +12,12 @@ const ramdonIndex = Math.floor(Math.random() * DUMMY_USERS.length)
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-  selecterUser = DUMMY_USERS[ramdonIndex]
-
-  get imagePath() {
-    return 'assets/users/' + this.selecterUser.avatar
-  }
+  selecterUser = signal(DUMMY_USERS[ramdonIndex])
+  imagePath = computed(() => 'assets/users/' + this.selecterUser().avatar)
 
   onSelectUser() {
     const ramdonIndex = Math.floor(Math.random() * DUMMY_USERS.length)
-    this.selecterUser = DUMMY_USERS[ramdonIndex]
+    this.selecterUser.set(DUMMY_USERS[ramdonIndex])
+
   }
 }
